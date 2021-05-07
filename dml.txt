@@ -1,0 +1,204 @@
+CREATE TABLE film (
+	id_film CHAR(5) PRIMARY KEY,
+	nama_film VARCHAR(100),
+	tahun_pembuatan INT,
+	durasi INT
+);
+INSERT INTO film (id_film, nama_film, tahun_pembuatan, durasi) VALUES ('F0001', 'AQUAMAN', 2018, 113);
+INSERT INTO film (id_film, nama_film, tahun_pembuatan, durasi) VALUES ('F0002', 'RALPH BREAKS THE INTERNET', 2018, 116);
+INSERT INTO film (id_film, nama_film, tahun_pembuatan, durasi) VALUES ('F0003', 'ROBIN HOOD', 2018, 116);
+INSERT INTO film (id_film, nama_film, tahun_pembuatan, durasi) VALUES ('F0004', 'FANTASTIC BEASTS: THE CRIMES OF GRINDELWALD', 2018, 103);
+INSERT INTO film (id_film, nama_film, tahun_pembuatan, durasi) VALUES ('F0005', 'HANUM DAN RANGGA', 2018, 90);
+
+CREATE TABLE genre (
+	id_genre CHAR(3) PRIMARY KEY,
+	nama_genre VARCHAR(50)
+);
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G01', 'action');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G02', 'animation');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G03', 'advanture');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G04', 'comedy');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G05', 'family');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G06', 'drama');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G07', 'fantasy');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G08', 'thriller');
+INSERT INTO genre (id_genre, nama_genre) VALUES ('G09', 'horror');
+
+CREATE TABLE memiliki (
+	id_film CHAR(5),
+	id_genre CHAR(3),
+	PRIMARY KEY(id_film, id_genre)
+);
+
+ALTER TABLE memiliki
+ADD CONSTRAINT FK_M_FILM FOREIGN KEY (id_film) REFERENCES film(id_film);
+ALTER TABLE memiliki 
+ADD CONSTRAINT FK_M_GENRE FOREIGN KEY (id_genre) REFERENCES genre(id_genre);
+
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0001', 'G01');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0001', 'G03');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0001', 'G07');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0002', 'G02');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0002', 'G03');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0002', 'G04');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0003', 'G01');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0003', 'G03');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0004', 'G03');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0004', 'G05');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0004', 'G07');
+INSERT INTO memiliki (id_film, id_genre) VALUES ('F0005', 'G06');
+
+CREATE TABLE studio (
+	id_studio CHAR(3) PRIMARY KEY,
+	kapasitas INT
+);
+INSERT INTO studio (id_studio, kapasitas) VALUES ('S01', 50);
+INSERT INTO studio (id_studio, kapasitas) VALUES ('S02', 50);
+INSERT INTO studio (id_studio, kapasitas) VALUES ('S03', 50);
+INSERT INTO studio (id_studio, kapasitas) VALUES ('S04', 50);
+INSERT INTO studio (id_studio, kapasitas) VALUES ('S05', 50);
+
+CREATE TABLE detil_pemutaran (
+	id_putar CHAR(5) PRIMARY KEY,
+	id_studio CHAR(3),
+	id_film CHAR(5),
+	jam_mulai TIME,
+	jam_selesai TIME,
+	harga_per_tiket INT
+);
+
+
+ALTER TABLE detil_pemutaran
+ADD CONSTRAINT FK_P_STUDIO FOREIGN KEY (id_studio) REFERENCES studio(id_studio);
+ALTER TABLE detil_pemutaran 
+ADD CONSTRAINT FK_P_FILM FOREIGN KEY (id_film) REFERENCES film(id_film);
+
+INSERT INTO detil_pemutaran VALUES ('DP001', 'S01', 'F0001', '10:00:00', '12:00:00', 45000);
+INSERT INTO detil_pemutaran  VALUES ('DP002', 'S01', 'F0001','12:00:00','14:00:00',45000);
+INSERT INTO detil_pemutaran  VALUES ('DP003', 'S01', 'F0001',  '14:00:00' ,  '16:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP004', 'S01', 'F0001',  '16:00:00' ,  '18:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP005', 'S01', 'F0001',  '18:00:00' ,  '20:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP006', 'S01', 'F0001',  '20:00:00' ,  '22:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP007', 'S02', 'F0002',  '10:00:00' ,  '12:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP008', 'S02', 'F0002',  '12:00:00' ,  '14:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP009', 'S02', 'F0002',  '14:00:00' ,  '16:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP010', 'S02', 'F0002',  '16:00:00' ,  '18:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP011', 'S02', 'F0002',  '18:00:00' ,  '20:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP012', 'S02', 'F0002',  '20:00:00' ,  '22:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP013', 'S03', 'F0003',  '10:00:00' ,  '12:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP014', 'S03', 'F0003', '12:00:00' ,  '14:00:00' , 45000);
+INSERT INTO detil_pemutaran  VALUES ('DP015', 'S03', 'F0003', '14:00:00' ,  '16:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP016', 'S03', 'F0003', '16:00:00' ,  '18:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP017', 'S03', 'F0003', '18:00:00' ,  '20:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP018', 'S03', 'F0003', '20:00:00' ,  '22:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP019', 'S04', 'F0004', '10:00:00' ,  '12:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP020', 'S04', 'F0004', '12:00:00' ,  '14:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP021', 'S04', 'F0004', '14:00:00' , '16:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP022', 'S04', 'F0004', '16:00:00' , '18:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP023', 'S04', 'F0004', '18:00:00' , '20:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP024', 'S04', 'F0004', '20:00:00' , '22:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP025', 'S05', 'F0005', '10:00:00' ,  '12:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP026', 'S05', 'F0005', '12:00:00' ,  '14:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP027', 'S05', 'F0005', '14:00:00' ,  '16:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP028', 'S05', 'F0005', '16:00:00' ,  '18:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP029', 'S05', 'F0005', '18:00:00' ,  '20:00:00' , 45000);
+INSERT INTO detil_pemutaran VALUES ('DP030', 'S05', 'F0005', '20:00:00' ,  '22:00:00' , 45000);
+
+CREATE TABLE pegawai (
+	id_pegawai CHAR(5) PRIMARY KEY,
+	nama_pegawai VARCHAR(100),
+	tgl_lahir DATE,
+	no_telp VARCHAR(15),
+	jenis_kelamin CHAR(1)
+);
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG001', 'Evendi Bartolommeo', '1994-03-09', '088197674365', 'L');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG002', 'Roanne Stubbeley', '1994-12-09','082748827145', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG003', 'Judith Durdy', '1990-03-03','080789698690', 'L');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG004', 'Bevon Cramphorn', '1995-05-02', '080234634394', 'L');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG005', 'Missy Doogood', '1990-10-01', '086537548609', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG006', 'Winna Jorck', '1992-12-11', '088221699533', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG007', 'Gray Fairbrass','1994-12-14' , '085596984778', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG008', 'Ennis Dorran', '1992-12-03', '087256253288', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG009', 'Hagan Powell', '1993-07-16', '082684498875', 'L');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG010', 'Agnella Siely', '1992-04-15', '085004012256', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG011', 'Annalee Maldin', '1993-12-13', '082210937239', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG012', 'Andriette Clayal', '1990-12-24', '087924109019', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG013', 'Glennis Dunstall', '1991-11-23', '088959817902', 'L');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG014', 'Brittne Monier', '1990-04-15', '084709658103', 'P');
+INSERT INTO pegawai (id_pegawai, nama_pegawai, tgl_lahir, no_telp, jenis_kelamin) VALUES ('PG015', 'Jackqueline Story', '1990-05-18','084759025479', 'L');
+
+CREATE TABLE pelanggan (
+	id_pelanggan CHAR(5) PRIMARY KEY,
+	nama_pelanggan VARCHAR(100),
+	tgl_daftar DATE,
+	email VARCHAR(50),
+	no_telp VARCHAR(15)
+);
+
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL001', 'Horton Karleman', '2018-11-07', 'HortonKarleman@email.com', '083698206657');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL002', 'Ted Priscott', '2016-02-05', 'TedPriscott@email.com', '083440661566');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL003', 'Salomo Jurkowski', '2016-06-08', 'SalomoJurkowski@email.com', '086091495439');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL004', 'Melinda Philippard', '2018-01-05', 'MelindaPhilippard@email.com', '085579959370');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL005', 'Codie McGee', '2017-08-10', 'CodieMcGee@email.com', '080801618906');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL006', 'Kenon Zettoi', '2016-02-10', 'KenonZettoi@email.com', '089819433294');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL007', 'Colas Kears', '2017-08-26', 'ColasKears@email.com', '082788543338');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL008', 'Miran Hazlegrove', '2016-12-14', 'MiranHazlegrove@email.com', '083048476991');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL009', 'Geraldine Muscroft', '2017-04-13', 'GeraldineMuscroft@email.com', '082865714320');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL010', 'Joshuah Petrecz', '2016-05-16', 'JoshuahPetrecz@email.com', '081470819294');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL011', 'Tad Plowman', '2018-07-24', 'TadPlowman@email.com', '080701485505');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL012', 'Blakelee Ygoe', '2017-05-26', 'BlakeleeYgoe@email.com', '089280779429');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL013', 'Honoria Faustin', '2017-02-17', 'HonoriaFaustin@email.com', '086825162246');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL014', 'Dyan Flohard', '2017-08-31', 'DyanFlohard@email.com', '082385808707');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL015', 'Reinold Cantopher', '2016-11-29', 'ReinoldCantopher@email.com', '085664706183');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL016', 'Hyacinthie Morman', '2018-01-16', 'HyacinthieMorman@email.com', '087731774300');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL017', 'Lucia Horley', '2018-10-18', 'LuciaHorley@email.com', '086952923730');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL018', 'Roderick McLaughlin', '2016-04-28', 'RoderickMcLaughlin@email.com', '080977807953');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL019', 'Eugen Beaudry', '2017-01-17', 'EugenBeaudry@email.com', '088045643191');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL020', 'Colet Grumbridge', '2016-03-19', 'ColetGrumbridge@email.com', '082429916041');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL021', 'Daren Gallardo', '2016-02-11', 'DarenGallardo@email.com', '088482573266');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL022', 'Dani Preskett', '2018-09-24', 'DaniPreskett@email.com', '086370727710');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL023', 'Gaylene Krystof', '2018-04-13', 'GayleneKrystof@email.com', '089070908368');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL024', 'Meghann Twaits', '2017-07-11', 'MeghannTwaits@email.com', '088116429704');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL025', 'Alix Lewins', '2017-04-04', 'AlixLewins@email.com', '081656228496');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL026', 'Pietra Sallarie', '2018-10-27', 'PietraSallarie@email.com', '089770971404');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL027', 'Vilhelmina Gormley', '2016-05-26', 'VilhelminaGormley@email.com', '087928492761');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL028', 'Jeramey Tyght', '2017-05-07', 'JerameyTyght@email.com', '088772356922');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL029', 'Kennedy Piotrkowski', '2018-07-02', 'KennedyPiotrkowski@email.com', '085432156330');
+INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, tgl_daftar, email, no_telp) VALUES ('PL030', 'Winifred Fardoe', '2016-03-21', 'WinifredFardoe@email.com', '080241553712');
+
+
+CREATE TABLE transaksi (
+	id_transaksi CHAR(5) PRIMARY KEY,
+	id_pegawai CHAR(5),
+	id_putar CHAR(5),
+	id_pelanggan CHAR(5),
+	jumlah_tiket INT,
+	tgl_main DATE,
+	tgl_transaksi DATE
+);
+ALTER TABLE transaksi
+ADD CONSTRAINT FK_T_PEG FOREIGN KEY (id_pegawai) REFERENCES pegawai(id_pegawai);
+ALTER TABLE transaksi 
+ADD CONSTRAINT FK_T_DP FOREIGN KEY (id_putar) REFERENCES detil_pemutaran(id_putar);
+
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0001', 'PG013', 'DP026', 'PL011', 19, '2018-11-20', '2018-11-21');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0002', 'PG005', 'DP025', 'PL024', 2, '2018-11-24', '2018-11-23');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0003', 'PG009', 'DP007', 'PL010', 1, '2018-11-07', '2018-11-06');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0004', 'PG006', 'DP012', 'PL005', 7, '2018-11-25', '2018-11-23');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0005', 'PG004', 'DP007', 'PL015', 17, '2018-12-03', '2018-12-02');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0006', 'PG008', 'DP011', 'PL024', 16, '2018-11-02', '2018-10-31');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0007', 'PG014', 'DP012', 'PL002', 15, '2018-11-23', '2018-11-22');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0008', 'PG009', 'DP006', 'PL025', 5, '2018-12-07', '2018-12-05');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0009', 'PG008', 'DP025', 'PL001', 13, '2018-11-29', '2018-11-29');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0010', 'PG008', 'DP011', 'PL025', 11, '2018-12-05', '2018-12-05');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0011', 'PG004', 'DP017', 'PL004', 2, '2018-12-03', '2018-12-03');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0012', 'PG011', 'DP009', 'PL014', 1, '2018-12-07', '2018-12-07');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0013', 'PG002', 'DP018', 'PL012', 19, '2018-11-10', '2018-11-08');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0014', 'PG015', 'DP002', 'PL006', 12, '2018-11-08', '2018-11-08');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0015', 'PG011', 'DP011', 'PL018', 8, '2018-11-06', '2018-11-06');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0016', 'PG013', 'DP026', 'PL022', 1, '2018-11-26', '2018-11-26');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0017', 'PG014', 'DP007', 'PL002', 3, '2018-11-03', '2018-11-03');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0018', 'PG001', 'DP016', 'PL015', 5, '2018-11-04', '2018-11-02');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0019', 'PG001', 'DP006', 'PL025', 10, '2018-11-15', '2018-11-15');
+INSERT INTO transaksi (id_transaksi, id_pegawai, id_putar, id_pelanggan, jumlah_tiket, tgl_main, tgl_transaksi) VALUES ('T0020', 'PG009', 'DP015', 'PL016', 7, '2018-11-29', '2018-11-28');
+

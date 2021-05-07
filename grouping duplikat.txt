@@ -1,0 +1,21 @@
+library(stringdist)
+library(openxlsx)
+data.pelanggan <- read.xlsx("staging.final.xlsx")
+hasil.akhir <- NULL
+grouping_no <- 1
+while(length(data.pelanggan$nama)>0)
+{
+  referensi.nama <- data.pelanggan$nama[1]
+  referensi.alamat <- data.pelanggan$alamat[1]
+  jarak.teks.nama <- stringdist(referensi.nama, data.pelanggan$nama, method="cosine")
+  jarak.teks.alamat <- stringdist(referensi.alamat, data.pelanggan$alamat, method="lv")
+  filter.jarak <- (jarak.teks.nama <= 0.15 & jarak.teks.alamat < 15)
+  kode_pelanggan.temp <- data.pelanggan[filter.jarak,]$kode_pelanggan
+  nama.temp <- data.pelanggan[filter.jarak,]$nama
+  alamat.temp <- data.pelanggan[filter.jarak,]$alamat
+  var.temp <- data.frame(grouping=grouping_no, kode_pelanggan=kode_pelanggan.temp, nama=nama.temp, alamat=alamat.temp, jumlah_record=length(kode_pelanggan.temp))
+  hasil.akhir <- rbind(hasil.akhir, var.temp)
+  data.pelanggan <- data.pelanggan[!filter.jarak,]
+  grouping_no <- grouping_no + 1
+}
+write.xlsx(hasil.akhir, file="staging.duplikat.standarisasi.xlsx")

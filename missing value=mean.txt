@@ -1,0 +1,31 @@
+library(RMySQL)
+library(openxlsx)
+
+con <- dbConnect(MySQL(), user="demo", password="demo", host="mysqlhost",
+                 dbname="dqlabdatawrangling")
+
+sql <- "SELECT kode_pelanggan, nilai_belanja_setahun from dqlab_messy_data"
+
+rs <- tryCatch(dbSendQuery(con, sql), finally = print("query ok"))
+data.pelanggan <- fetch(rs, n=-1)
+dbClearResult(rs)
+
+#Melakukan konversi nilai_belanja_setahun menjadi numerik
+#karena sebelumnya disimpan dalam bentuk character
+data.pelanggan$nilai_belanja_setahun <- as.numeric(data.pelanggan$nilai_belanja_setahun)
+summary(data.pelanggan)
+
+#Menghitung rata-rata dengan function mean dan disimpan dalam variable nilai_rata_rata
+nilai_rata_rata <- mean(data.pelanggan$nilai_belanja_setahun, na.rm=TRUE)
+
+#Mengisi missing value dengan nilai rata-rata
+data.pelanggan$nilai_belanja_setahun[is.na(data.pelanggan$nilai_belanja_setahun)]<- nilai_rata_rata
+
+#Melihat summary setelah missing value
+summary(data.pelanggan)
+
+#Menulis ke dalam file staging.enrichment.mean.xlsx
+write.xlsx(data.pelanggan, file="staging.enrichment.mean.xlsx")
+all_cons <- dbListConnections(MySQL())
+for(con in all_cons)
+    + dbDisconnect(con)
